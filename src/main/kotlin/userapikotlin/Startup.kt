@@ -24,5 +24,5 @@ fun Application.module() {
 }
 
 fun main(args: Array<String>) {
-    embeddedServer(Netty, port = 8080) { }.start(wait = true)
+    embeddedServer(Netty, port = 8080) { this.module() }.start(wait = true)
 }

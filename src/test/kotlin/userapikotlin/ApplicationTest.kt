@@ -8,7 +8,7 @@ import org.junit.Test
 import kotlin.test.assertEquals
 
 class ApplicationTest {
-    @Test fun testRequest() = withTestApplication(Application::module) {
+    @Test fun testHello() = withTestApplication(Application::module) {
         with(
             handleRequest
             {
@@ -19,13 +19,16 @@ class ApplicationTest {
             assertEquals(HttpStatusCode.OK, response.status())
             assertEquals("Hello, world!<br><a href=\"/bye\">Say bye?</a>", response.content)
         }
+    }
+
+    @Test fun testBye() = withTestApplication(Application::module) {
 
         with(
-            handleRequest
-            {
-                this.method = HttpMethod.Get
-                this.uri = "/bye"
-            })
+                handleRequest
+                {
+                    this.method = HttpMethod.Get
+                    this.uri = "/bye"
+                })
         {
             assertEquals(HttpStatusCode.OK, response.status())
             assertEquals("Good bye!", response.content)
