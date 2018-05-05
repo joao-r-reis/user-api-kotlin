@@ -1,5 +1,5 @@
 buildscript {
-    ext.kotlin_version = '1.2.30'
+    ext.kotlin_version = '1.2.31'
     ext.ktor_version = '0.9.1'
 
     repositories {
@@ -31,6 +31,8 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     compile "io.ktor:ktor-server-core:$ktor_version"
     compile "io.ktor:ktor-server-netty:$ktor_version"
+    compile "org.litote.kmongo:kmongo-coroutine-native:3.6.3"
+    compile "ch.qos.logback:logback-classic:1.2.1"
 
     testCompile "io.ktor:ktor-server-test-host:$ktor_version"
     testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
