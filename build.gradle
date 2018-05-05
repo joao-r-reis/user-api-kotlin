@@ -33,6 +33,7 @@ dependencies {
     compile "io.ktor:ktor-server-netty:$ktor_version"
     compile "org.litote.kmongo:kmongo-coroutine-native:3.6.3"
     compile "ch.qos.logback:logback-classic:1.2.1"
+    compile "org.koin:koin-ktor:$ktor_version"
 
     testCompile "io.ktor:ktor-server-test-host:$ktor_version"
     testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"

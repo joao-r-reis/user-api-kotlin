@@ -5,6 +5,7 @@ import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.testing.withTestApplication
 import org.junit.Test
+import userapikotlin.presentation.module
 import kotlin.test.assertEquals
 
 class ApplicationTest {
