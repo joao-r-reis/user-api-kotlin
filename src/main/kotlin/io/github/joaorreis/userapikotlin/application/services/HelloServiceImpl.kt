@@ -1,7 +1,7 @@
-package userapikotlin.application
+package io.github.joaorreis.userapikotlin.application.services
 
-import userapikotlin.data.HelloRepository
-import userapikotlin.domain.Jedi
+import io.github.joaorreis.userapikotlin.data.repository.HelloRepository
+import io.github.joaorreis.userapikotlin.domain.model.Jedi
 import java.util.*
 
 class HelloServiceImpl(private val repo: HelloRepository) : HelloService {

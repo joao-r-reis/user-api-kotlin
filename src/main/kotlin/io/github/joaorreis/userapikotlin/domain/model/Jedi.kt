@@ -1,4 +1,4 @@
-package userapikotlin.domain
+package io.github.joaorreis.userapikotlin.domain.model
 
 data class Jedi(
         val name: String,

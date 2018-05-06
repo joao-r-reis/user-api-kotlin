@@ -1,11 +1,11 @@
-package userapikotlin
+package io.github.joaorreis.userapikotlin
 
 import io.ktor.application.Application
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.testing.withTestApplication
 import org.junit.Test
-import userapikotlin.presentation.module
+import io.github.joaorreis.userapikotlin.presentation.api.module
 import kotlin.test.assertEquals
 
 class ApplicationTest {
