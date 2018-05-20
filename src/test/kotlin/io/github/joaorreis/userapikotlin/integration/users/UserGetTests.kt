@@ -1,7 +1,8 @@
-package io.github.joaorreis.userapikotlin.integration
+package io.github.joaorreis.userapikotlin.integration.users
 
 import com.google.gson.Gson
 import io.github.joaorreis.userapikotlin.application.dto.UserDto
+import io.github.joaorreis.userapikotlin.integration.helpers.BaseTestClass
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod

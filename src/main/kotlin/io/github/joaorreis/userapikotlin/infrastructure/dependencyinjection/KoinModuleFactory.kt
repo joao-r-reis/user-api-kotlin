@@ -18,13 +18,8 @@ class KoinModuleFactory(private val setupPresentationDependencies: Context.(Appl
 
     fun create(config: ApplicationConfig): Module = applicationContext {
 
-        val mongoDbConString: String = config
-                .propertyOrNull("MongoDb.ConnectionString")?.getString()
-                ?: "localhost"
-
-        val mongoDbDatabaseName: String = config
-                .propertyOrNull("MongoDb.DatabaseName")?.getString()
-                ?: "userapikotlin"
+        val mongoDbConString: String = config.property("MongoDb.ConnectionString").getString()
+        val mongoDbDatabaseName: String = config.property("MongoDb.DatabaseName").getString()
 
         bean { UserServiceImpl(get()) as UserService }
         bean { UserRepositoryImpl(get()) as UserRepository }

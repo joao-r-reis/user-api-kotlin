@@ -1,4 +1,4 @@
-package io.github.joaorreis.userapikotlin.integration
+package io.github.joaorreis.userapikotlin.integration.helpers
 
 import de.flapdoodle.embed.mongo.MongodExecutable
 import de.flapdoodle.embed.mongo.MongodStarter
@@ -8,7 +8,7 @@ import de.flapdoodle.embed.mongo.distribution.Version
 import de.flapdoodle.embed.process.runtime.Network
 import io.ktor.config.ApplicationConfig
 
-fun SetupInMemoryMongoServer(config : ApplicationConfig) : MongodExecutable {
+fun SetupInMemoryMongoServer(config: ApplicationConfig): MongodExecutable {
     val starter = MongodStarter.getDefaultInstance()
 
     val bindIp = config.property("InMemoryMongo.Host").getString()

@@ -1,4 +1,4 @@
-package io.github.joaorreis.userapikotlin.integration
+package io.github.joaorreis.userapikotlin.integration.helpers
 
 import com.typesafe.config.ConfigFactory
 import de.flapdoodle.embed.mongo.MongodProcess
@@ -42,10 +42,9 @@ open class BaseTestClass {
             test)
     }
 
-    fun executeRequest(engine : TestApplicationEngine, setupRequest: TestApplicationRequest.() -> Unit)
-            : TestApplicationResponse {
+    fun executeRequest(engine: TestApplicationEngine, setupRequest: TestApplicationRequest.() -> Unit): TestApplicationResponse {
 
-        val req : TestApplicationEngine.() -> TestApplicationResponse =
+        val req: TestApplicationEngine.() -> TestApplicationResponse =
                 { with(handleRequest(setupRequest), { response.awaitCompletion(); response }) }
 
         return engine.req()
