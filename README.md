@@ -60,7 +60,8 @@ curl -s http://localhost:8080/api/v1/users
 
 ### Creating a user
 ```bash
-curl -s --header "Content-Type: application/json" --request POST --data '{"name":"testuser","age":49}' http://localhost:8080/api/v1/users
+curl -s --header "Content-Type: application/json" --request POST \
+--data '{"name":"testuser","age":49}' http://localhost:8080/api/v1/users
 {
   "name": "testuser",
   "age": 49,
