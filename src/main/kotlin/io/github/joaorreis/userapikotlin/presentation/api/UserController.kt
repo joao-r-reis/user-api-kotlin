@@ -12,8 +12,9 @@ import io.ktor.routing.get
 import io.ktor.routing.post
 
 class UserController(
-        context: PipelineContext<Unit, ApplicationCall>,
-        private val userService: UserService)
+    context: PipelineContext<Unit, ApplicationCall>,
+    private val userService: UserService
+)
     : BaseController(context) {
 
     companion object {

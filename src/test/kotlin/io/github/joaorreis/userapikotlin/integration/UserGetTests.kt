@@ -2,17 +2,12 @@ package io.github.joaorreis.userapikotlin.integration
 
 import com.google.gson.Gson
 import io.github.joaorreis.userapikotlin.application.dto.UserDto
-import io.github.joaorreis.userapikotlin.presentation.api.module
-import io.ktor.application.Application
-import io.ktor.config.MapApplicationConfig
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.testing.handleRequest
-import io.ktor.server.testing.withTestApplication
 import org.junit.Test
-import java.util.*
 import kotlin.test.assertEquals
 
 class UserGetTests : BaseTestClass() {
@@ -53,4 +48,3 @@ class UserGetTests : BaseTestClass() {
         assertEquals(HttpStatusCode.OK, act.status())
     }
 }
-
