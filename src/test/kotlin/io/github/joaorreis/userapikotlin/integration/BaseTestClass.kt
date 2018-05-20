@@ -1,36 +1,25 @@
 package io.github.joaorreis.userapikotlin.integration
 
 import com.typesafe.config.ConfigFactory
-import de.flapdoodle.embed.mongo.MongodExecutable
 import de.flapdoodle.embed.mongo.MongodProcess
-import de.flapdoodle.embed.mongo.MongodStarter
-import de.flapdoodle.embed.mongo.config.MongodConfigBuilder
-import de.flapdoodle.embed.mongo.config.Net
-import de.flapdoodle.embed.mongo.distribution.Version
-import de.flapdoodle.embed.process.runtime.Network
 import io.github.joaorreis.userapikotlin.presentation.api.module
 import io.ktor.config.HoconApplicationConfig
 import io.ktor.config.MapApplicationConfig
 import io.ktor.server.testing.TestApplicationEngine
+import io.ktor.server.testing.TestApplicationRequest
+import io.ktor.server.testing.TestApplicationResponse
 import io.ktor.server.testing.withTestApplication
 import org.junit.AfterClass
 import org.junit.BeforeClass
-import java.util.UUID
+import java.util.*
 
 open class BaseTestClass {
     companion object {
-        val starter = MongodStarter.getDefaultInstance()
-        val rawConfig = ConfigFactory.load()
-        val config = HoconApplicationConfig(ConfigFactory.load()) // Provide a Hocon config file
+        val rawConfig = ConfigFactory.load()!!
 
-        val bindIp = config.property("InMemoryMongo.Host").getString()
-        val port = config.property("InMemoryMongo.Port").getString().toInt()
-        val mongodConfig = MongodConfigBuilder()
-                .version(Version.Main.DEVELOPMENT)
-                .net(Net(bindIp, port, Network.localhostIsIPv6()))
-                .build()
+        private val config = HoconApplicationConfig(rawConfig) // Provide a Hocon config file
+        private val mongodExecutable = SetupInMemoryMongoServer(config)
 
-        val mongodExecutable: MongodExecutable? = starter.prepare(mongodConfig)
         var mongodb: MongodProcess? = null
 
         @BeforeClass
@@ -56,5 +45,14 @@ open class BaseTestClass {
                 module() // Call here your application's module
             },
             test)
+    }
+
+    fun executeRequest(engine : TestApplicationEngine, setupRequest: TestApplicationRequest.() -> Unit)
+            : TestApplicationResponse {
+
+        val req : TestApplicationEngine.() -> TestApplicationResponse =
+                { with(handleRequest(setupRequest), { response.awaitCompletion(); response }) }
+
+        return engine.req()
     }
 }
