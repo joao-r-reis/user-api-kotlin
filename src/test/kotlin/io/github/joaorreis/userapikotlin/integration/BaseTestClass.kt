@@ -9,9 +9,10 @@ import io.ktor.server.testing.TestApplicationEngine
 import io.ktor.server.testing.TestApplicationRequest
 import io.ktor.server.testing.TestApplicationResponse
 import io.ktor.server.testing.withTestApplication
-import org.junit.AfterClass
-import org.junit.BeforeClass
-import java.util.*
+import kotlinx.coroutines.experimental.runBlocking
+import org.junit.Before
+import org.litote.kmongo.async.KMongo
+import org.litote.kmongo.coroutine.drop
 
 open class BaseTestClass {
     companion object {
@@ -20,26 +21,20 @@ open class BaseTestClass {
         private val config = HoconApplicationConfig(rawConfig) // Provide a Hocon config file
         private val mongodExecutable = SetupInMemoryMongoServer(config)
 
-        var mongodb: MongodProcess? = null
+        val mongodb: MongodProcess? = mongodExecutable.start()
+        val mongoClient = KMongo.createClient(config.property("MongoDb.ConnectionString").getString())
+        val mongoDatabaseName = config.property("MongoDb.DatabaseName").getString()
+    }
 
-        @BeforeClass
-        @JvmStatic fun setup() {
-            mongodb = mongodExecutable!!.start()
-        }
-
-        @AfterClass
-        @JvmStatic fun teardown() {
-            mongodb!!.stop()
-        }
+    @Before fun setup() {
+        runBlocking { mongoClient.getDatabase(mongoDatabaseName).drop() }
     }
 
     fun <R> integrationTest(test: TestApplicationEngine.() -> R): R {
         return withTestApplication(
             {
                 (environment.config as MapApplicationConfig).apply {
-
                     rawConfig.entrySet().forEach({ entry -> put(entry.key, entry.value.unwrapped().toString()) })
-                    put("MongoDb.DatabaseName", "tests-" + UUID.randomUUID().toString())
                 }
 
                 module() // Call here your application's module
