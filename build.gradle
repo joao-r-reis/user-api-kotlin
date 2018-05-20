@@ -56,6 +56,19 @@ compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
 
+test {
+    testLogging {
+        afterSuite { desc, result ->
+            if (!desc.parent) { // will match the outermost suite
+                println "${System.getProperty("line.separator")}Results: ${result.resultType} (${result.testCount} tests, " +
+                        "${result.successfulTestCount} successes, " +
+                        "${result.failedTestCount} failures, " +
+                        "${result.skippedTestCount} skipped)"
+            }
+        }
+    }
+}
+
 task ktlint(type: JavaExec, group: "verification") {
     description = "Check Kotlin code style."
     main = "com.github.shyiko.ktlint.Main"
