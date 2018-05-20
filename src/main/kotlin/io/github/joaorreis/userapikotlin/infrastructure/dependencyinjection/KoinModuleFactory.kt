@@ -3,26 +3,35 @@ package io.github.joaorreis.userapikotlin.infrastructure.dependencyinjection
 import com.mongodb.async.client.MongoClient
 import com.mongodb.async.client.MongoCollection
 import com.mongodb.async.client.MongoDatabase
+import io.github.joaorreis.userapikotlin.application.services.UserService
+import io.github.joaorreis.userapikotlin.application.services.UserServiceImpl
+import io.github.joaorreis.userapikotlin.data.repository.UserRepository
+import io.github.joaorreis.userapikotlin.data.repository.UserRepositoryImpl
+import io.github.joaorreis.userapikotlin.domain.model.User
+import io.ktor.config.ApplicationConfig
 import org.koin.dsl.context.Context
 import org.koin.dsl.module.Module
 import org.koin.dsl.module.applicationContext
 import org.litote.kmongo.async.KMongo
-import io.github.joaorreis.userapikotlin.application.services.HelloService
-import io.github.joaorreis.userapikotlin.application.services.HelloServiceImpl
-import io.github.joaorreis.userapikotlin.data.repository.HelloRepository
-import io.github.joaorreis.userapikotlin.data.repository.HelloRepositoryImpl
-import io.github.joaorreis.userapikotlin.domain.model.Jedi
 
-class KoinModuleFactory(private val setupPresentationDependencies: Context.() -> Unit) {
+class KoinModuleFactory(private val setupPresentationDependencies: Context.(ApplicationConfig) -> Unit) {
 
-    fun create(): Module = applicationContext {
+    fun create(config: ApplicationConfig): Module = applicationContext {
 
-        bean { HelloServiceImpl(get()) as HelloService } // get() Will resolve HelloRepository
-        bean { HelloRepositoryImpl(get()) as HelloRepository }
-        bean { KMongo.createClient() }
-        bean { get<MongoClient>().getDatabase("test") as MongoDatabase }
-        bean { get<MongoDatabase>().getCollection("jedis", Jedi::class.java) as MongoCollection<Jedi> }
+        val mongoDbConString: String = config
+                .propertyOrNull("MongoDb.ConnectionString")?.getString()
+                ?: "localhost"
 
-        setupPresentationDependencies()
+        val mongoDbDatabaseName: String = config
+                .propertyOrNull("MongoDb.DatabaseName")?.getString()
+                ?: "userapikotlin"
+
+        bean { UserServiceImpl(get()) as UserService }
+        bean { UserRepositoryImpl(get()) as UserRepository }
+        bean { KMongo.createClient(mongoDbConString) }
+        bean { get<MongoClient>().getDatabase(mongoDbDatabaseName) as MongoDatabase }
+        bean { get<MongoDatabase>().getCollection("users", User::class.java) as MongoCollection<User> }
+
+        setupPresentationDependencies(config)
     }
 }
