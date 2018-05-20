@@ -1,9 +1,10 @@
-# user-api-kotlin
+# User Api in Kotlin
+
 Very basic web api to learn kotlin and some frameworks like ktor. This is also almost my first web api project in the JVM!
 
 ## Frameworks and libraries
 
-Web Api:
+### Web Api:
 - Ktor (with coroutines)
     - Netty
     - Gson
@@ -11,7 +12,7 @@ Web Api:
 - KMongo (with coroutines)
 - Logback
 
-Tests:
+### Tests:
 - Mockito
 - Embedded MongoDB
 - Ktor server test host
