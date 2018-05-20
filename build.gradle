@@ -14,6 +14,11 @@ group 'io.github.joao-r-reis.user-api-kotlin'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'kotlin'
+apply plugin: 'application' 
+
+mainClassName = 'io.github.joaorreis.userapikotlin.presentation.api.StartupKt'
+
+defaultTasks 'run'
 
 kotlin {
     experimental {
